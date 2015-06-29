@@ -1,6 +1,9 @@
 
 node_modules
 
+# zipped up app
+app.zip
+
 # IntelliJ
 .idea
 alexa-birthday-buddy.iml
