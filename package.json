@@ -1,0 +1,19 @@
+{
+  "name": "alexa-birthday-buddy",
+  "version": "1.0.0",
+  "description": "Alexa Birthday Buddy Skill",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swarajban/alexa-birthday-buddy.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/swarajban/alexa-birthday-buddy/issues"
+  },
+  "homepage": "https://github.com/swarajban/alexa-birthday-buddy#readme"
+}
