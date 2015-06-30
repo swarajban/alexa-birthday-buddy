@@ -1,13 +1,12 @@
+# Ignore local node modules
+src/node_modules
 
-node_modules
+# Ignore compiled directory
+app/
 
-# zipped up app
-app.zip
+# Ignore AWS deploy settings
+.env
 
 # IntelliJ
 .idea
 alexa-birthday-buddy.iml
-
-
-# Ignore AWS deploy settings
-app/.env
