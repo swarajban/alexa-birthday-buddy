@@ -1,15 +1,16 @@
 "use strict";
-// Alexa SDK for JavaScript v1.0.00
-// Copyright (c) 2014-2015 Amazon.com, Inc. or its affiliates. All Rights Reserved. Use is subject to license terms.
 
-import {AlexaSkillClass} from './AlexaSkillClass'
+// Import AlexaSkill base class
+import {AlexaSkill} from './AlexaSkill'
+
+
 /**
  * App ID for the skill
  */
 let APP_ID = 'amzn1.echo-sdk-ams.app.bbf61f6e-bbe7-464a-82ca-1214199d6273';
 
 
-class BirthdayBuddy extends AlexaSkillClass {
+class BirthdayBuddy extends AlexaSkill {
   constructor (appID) {
     super(appID);
   }
@@ -57,7 +58,7 @@ function handleUpcomingBirthdayRequest (response) {
 
 // Create the handler that responds to the Alexa Request.
 exports.handler = function (event, context) {
-  // Create an instance of the SpaceGeek skill.
+  // Create an instance of the BirthdayBuddy skill.
   let birthdayBuddy = new BirthdayBuddy(APP_ID);
   birthdayBuddy.execute(event, context);
 };

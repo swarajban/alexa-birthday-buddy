@@ -1,175 +1,116 @@
-// Alexa SDK for JavaScript v1.0.00
-// Copyright (c) 2014-2015 Amazon.com, Inc. or its affiliates. All Rights Reserved. Use is subject to license terms.
-'use strict';
-function AlexaSkill (appId) {
-  this._appId = appId;
-}
+"use strict";
 
-AlexaSkill.prototype.requestHandlers = {
-  LaunchRequest: function (event, context, response) {
-    this.eventHandlers.onLaunch.call(this, event.request, event.session, response);
-  },
+// Alexa SDK for ES6
 
-  IntentRequest: function (event, context, response) {
-    this.eventHandlers.onIntent.call(this, event.request, event.session, response);
-  },
+import {Response} from './Response'
 
-  SessionEndedRequest: function (event, context) {
-    this.eventHandlers.onSessionEnded(event.request, event.session);
+export class AlexaSkill {
+  constructor (appID) {
+    this.appID = appID;
+  }
+
+  // Internal Request Handlers
+  launchRequest (event, context, response) {
+    this.onLaunch(event.request, event.session, response);
+  }
+
+  intentRequest (event, context, response) {
+    this.onIntent(event.request, event.session, response);
+  }
+
+  sessionEndedRequest (event, context) {
+    this.onSessionEnded(event.request, event.session);
     context.succeed();
   }
-};
 
-/**
- * Override any of the eventHandlers as needed
- */
-AlexaSkill.prototype.eventHandlers = {
+
+  /**
+   * Override any of the eventHandlers as needed
+   */
+
   /**
    * Called when the session starts.
    * Subclasses could have overriden this function to open any necessary resources.
    */
-  onSessionStarted: function (sessionStartedRequest, session) {
-  },
+  onSessionStarted (sessionStartedRequest, session) {
+    console.log('session started');
+  }
 
   /**
    * Called when the user launches the skill without specifying what they want.
    * The subclass must override this function and provide feedback to the user.
    */
-  onLaunch: function (launchRequest, session, response) {
-    throw "onLaunch should be overriden by subclass";
-  },
+  onLaunch (launchRequest, session, response) {
+    throw "onLaunch should be overridden by subclass";
+  }
 
   /**
    * Called when the user specifies an intent.
    */
-  onIntent: function (intentRequest, session, response) {
-    var intent = intentRequest.intent,
-      intentName = intentRequest.intent.name,
-      intentHandler = this.intentHandlers[intentName];
+  onIntent (intentRequest, session, response) {
+    let intent = intentRequest.intent;
+    let intentName = intentRequest.intent.name;
+    let intentHandler = this.intentHandlers[intentName];
+
     if (intentHandler) {
-      console.log('dispatch intent = ' + intentName);
+      console.log(`dispatch intent = ${intentName}`);
       intentHandler.call(this, intent, session, response);
     } else {
-      throw 'Unsupported intent = ' + intentName;
+      throw `Unsupported intent = ${intentName}`;
     }
-  },
+  }
 
   /**
    * Called when the user ends the session.
    * Subclasses could have overriden this function to close any open resources.
    */
-  onSessionEnded: function (sessionEndedRequest, session) {
+  onSessionEnded (sessionEndedRequest, session) {
+
   }
-};
 
-/**
- * Subclasses should override the intentHandlers with the functions to handle specific intents.
- */
-AlexaSkill.prototype.intentHandlers = {};
 
-AlexaSkill.prototype.execute = function (event, context) {
-  try {
-    console.log("session applicationId: " + event.session.application.applicationId);
-
-    // Validate that this request originated from authorized source.
-    if (this._appId && event.session.application.applicationId !== this._appId) {
-      console.log("The applicationIds don't match : " + event.session.application.applicationId + " and "
-        + this._appId);
-      throw "Invalid applicationId";
-    }
-
-    if (!event.session.attributes) {
-      event.session.attributes = {};
-    }
-
-    if (event.session.new) {
-      this.eventHandlers.onSessionStarted(event.request, event.session);
-    }
-
-    // Route the request to the proper handler which may have been overriden.
-    var requestHandler = this.requestHandlers[event.request.type];
-    requestHandler.call(this, event, context, new Response(context, event.session));
-  } catch (e) {
-    console.log("Unexpected exception " + e);
-    context.fail(e);
+  /**
+   * Subclasses should override the intentHandlers with the functions to handle specific intents.
+   */
+  get intentHandlers () {
+    throw "intentHandlers should be overridden by subclass";
   }
-};
 
-var Response = function (context, session) {
-  this._context = context;
-  this._session = session;
-};
+  execute (event, context) {
+    try {
+      console.log(`session applicationID: ${event.session.application.applicationId}`);
 
-Response.prototype = (function () {
-  var buildSpeechletResponse = function (options) {
-    var alexaResponse = {
-      outputSpeech: {
-        type: 'PlainText',
-        text: options.output
-      },
-      shouldEndSession: options.shouldEndSession
-    };
-    if (options.reprompt) {
-      alexaResponse.reprompt = {
-        outputSpeech: {
-          type: 'PlainText',
-          text: options.reprompt
-        }
-      };
-    }
-    if (options.cardTitle && options.cardContent) {
-      alexaResponse.card = {
-        type: "Simple",
-        title: options.cardTitle,
-        content: options.cardContent
-      };
-    }
-    var returnResult = {
-      version: '1.0',
-      response: alexaResponse
-    };
-    if (options.session && options.session.attributes) {
-      returnResult.sessionAttributes = options.session.attributes;
-    }
-    return returnResult;
-  };
+      // Validate that this request originated from authorized source.
+      if (this.appID && event.session.application.applicationId !== this.appID) {
+        console.log(`the applicationIds don't match: ${event.session.application.applicationId} and ${this.appID}`);
+        throw "Invalid applicationId";
+      }
 
-  return {
-    tell: function (speechOutput) {
-      this._context.succeed(buildSpeechletResponse({
-        session: this._session,
-        output: speechOutput,
-        shouldEndSession: true
-      }));
-    },
-    tellWithCard: function (speechOutput, cardTitle, cardContent) {
-      this._context.succeed(buildSpeechletResponse({
-        session: this._session,
-        output: speechOutput,
-        cardTitle: cardTitle,
-        cardContent: cardContent,
-        shouldEndSession: true
-      }));
-    },
-    ask: function (speechOutput, repromptSpeech) {
-      this._context.succeed(buildSpeechletResponse({
-        session: this._session,
-        output: speechOutput,
-        reprompt: repromptSpeech,
-        shouldEndSession: false
-      }));
-    },
-    askWithCard: function (speechOutput, repromptSpeech, cardTitle, cardContent) {
-      this._context.succeed(buildSpeechletResponse({
-        session: this._session,
-        output: speechOutput,
-        reprompt: repromptSpeech,
-        cardTitle: cardTitle,
-        cardContent: cardContent,
-        shouldEndSession: false
-      }));
-    }
-  };
-})();
+      if (! event.session.attributes) {
+        event.session.attributes = {};
+      }
 
-module.exports = AlexaSkill;
+      if (event.session.new) {
+        this.onSessionStarted(event.request, event.session);
+      }
+
+      // Route the request to the proper handler which may have been overridden
+      let requestHandler = null;
+      switch (event.request.type) {
+        case 'LaunchRequest':
+          this.launchRequest(event, context, new Response(context, event.session));
+          break;
+
+        case 'IntentRequest':
+          this.intentRequest(event, context, new Response(context, event.session));
+          break;
+
+        case 'SessionEndedRequest':
+          this.sessionEndedRequest(event, context);
+          break;
+      }
+    } catch (e) {
+      console.log(`Unexpected exception ${e}`);
+    }
+  }
+}
