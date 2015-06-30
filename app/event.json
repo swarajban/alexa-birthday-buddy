@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "session": {
+    "new": true,
+    "application": {
+      "applicationId": "amzn1.echo-sdk-ams.app.bbf61f6e-bbe7-464a-82ca-1214199d6273"
+    },
+    "sessionId": "session1234",
+    "attributes": {},
+    "user": {
+      "userId": null
+    }
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "string",
+    "timestamp": "string",
+    "intent": {
+      "name": "UpcomingBirthdaysIntent"
+    }
+  }
+}

@@ -7,3 +7,7 @@ app.zip
 # IntelliJ
 .idea
 alexa-birthday-buddy.iml
+
+
+# Ignore AWS deploy settings
+app/.env
