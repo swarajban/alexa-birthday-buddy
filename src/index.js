@@ -1,8 +1,13 @@
 "use strict";
 
-// Import AlexaSkill base class
-import {AlexaSkill} from './AlexaSkill'
 
+import {AlexaSkill} from './AlexaSkill';
+import {getNextBirthdays} from './birthdays';
+import {getBirthdays} from 'birthdaysCollection';
+
+
+// 3rd Party Libs
+let moment = require('moment');
 
 /**
  * App ID for the skill
@@ -51,9 +56,38 @@ class BirthdayBuddy extends AlexaSkill {
   }
 }
 
+
 function handleUpcomingBirthdayRequest (response) {
-  var speechResponse = "Uhhnooruhthee's birthday is next, on December 5th";
-  response.tell(speechResponse);
+  let now = moment().utcOffset(-7);
+  let birthdays = getBirthdays();
+  let nextBirthdays = getNextBirthdays(now, birthdays);
+  console.log(nextBirthdays);
+  let birthdayString = '';
+
+  switch (nextBirthdays.length) {
+    case 1:
+      let nextBirthday = nextBirthdays[0];
+      let birthdayName = getBirthdayName(nextBirthday);
+      birthdayString = `${birthdayName}'s birthday is next on `
+
+
+  }
+
+  // 1 birthday: Swaraj's birthday is next on June 10th
+  // 2 birthdays: Anurati & Swaraj's birthdays are next on June 11th
+  // 2+ birthdays: Anurati, Swaraj, and Bagel's birthdays are next on June 12th
+
+
+
+  let d = new Date();
+  let s = `Today is ${d.getUTCDate()}. Hour is: ${d.getUTCHours()}`;
+
+  // UTC: date: 30; hours: 11
+  response.tell(birthdayString);
+
+
+  //var speechResponse = "Uhhnooruhthee's birthday is next, on December 5th";
+  //response.tell(speechResponse);
 }
 
 // Create the handler that responds to the Alexa Request.
