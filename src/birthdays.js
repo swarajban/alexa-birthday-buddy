@@ -48,9 +48,10 @@ export function getNextBirthdays (currentMoment, birthdays) {
   let nextBirthdays = [nextBirthday]; // add closest birthday!
 
   // Add all other birthdays on same day
-  for (let birthday of momentBirthdays.slice(1)) {
-    if (nextBirthday.momentBirthday.isSame(birthday.momentBirthday)) {
-      nextBirthdays.push(birthday);
+  for (let i = 1; i < momentBirthdays.length; i++) {
+    let currBirthday = momentBirthdays[i];
+    if (nextBirthday.momentBirthday.isSame(currBirthday.momentBirthday)) {
+      nextBirthdays.push(currBirthday);
     }
   }
 
