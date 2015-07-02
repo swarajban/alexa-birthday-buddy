@@ -28,8 +28,8 @@ describe('Birthday tests',
               }
             ];
 
-            let nextBirthdays = birthday.getNextBirthdays(today, testBirthdays);
-            assert.equal('next', nextBirthdays[0].name);
+            let {names, date} = birthday.getNextBirthdays(today, testBirthdays);
+            assert.equal('next', names[0]);
           }
         );
 
@@ -47,8 +47,8 @@ describe('Birthday tests',
               }
             ];
 
-            let nextBirthdays = birthday.getNextBirthdays(today, testBirthdays);
-            assert.equal('next', nextBirthdays[0].name);
+            let {names, date} = birthday.getNextBirthdays(today, testBirthdays);
+            assert.equal('next', names[0]);
           }
         );
 
@@ -66,8 +66,8 @@ describe('Birthday tests',
               }
             ];
 
-            let nextBirthdays = birthday.getNextBirthdays(today, testBirthdays);
-            assert.equal(2, nextBirthdays.length);
+            let {names, date} = birthday.getNextBirthdays(today, testBirthdays);
+            assert.equal(2, names.length);
           }
         )
       }

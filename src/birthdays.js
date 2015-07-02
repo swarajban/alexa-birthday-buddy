@@ -1,5 +1,7 @@
 "use strict";
 
+import {getBirthdayName} from './birthdaysCollection';
+
 let moment = require('moment');
 
 // Add a moment object for each 'raw' birthday object
@@ -45,15 +47,17 @@ export function getNextBirthdays (currentMoment, birthdays) {
   momentBirthdays.sort(compareMoments);
 
   let nextBirthday = momentBirthdays[0];
-  let nextBirthdays = [nextBirthday]; // add closest birthday!
+  let date = nextBirthday.momentBirthday;
+  let names = [getBirthdayName(nextBirthday)];
 
   // Add all other birthdays on same day
   for (let i = 1; i < momentBirthdays.length; i++) {
     let currBirthday = momentBirthdays[i];
     if (nextBirthday.momentBirthday.isSame(currBirthday.momentBirthday)) {
-      nextBirthdays.push(currBirthday);
+      names.push(getBirthdayName(currBirthday));
     }
   }
 
-  return nextBirthdays;
+  return {names, date};
 }
+

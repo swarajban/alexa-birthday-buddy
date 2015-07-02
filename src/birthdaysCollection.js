@@ -9,12 +9,27 @@ export function getBirthdays () {
     },
     {
       "name": "Anurati",
+      "pronounced": "Uhhnooruhthee",
       "date": "12/5/1988"
+    },
+    {
+      "name": "Swaraj's Dad",
+      "date": "7/17/1960"
     },
     {
       "name": "Bagel",
       "date": "5/5/1988"
     }
   ];
+}
+
+// Returns the birthday's name. Returns the pronounced
+// field if it exists
+export function getBirthdayName (birthday) {
+  if (birthday.pronounced) {
+    return birthday.pronounced;
+  } else {
+    return birthday.name;
+  }
 }
 

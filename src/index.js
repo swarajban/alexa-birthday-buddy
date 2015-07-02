@@ -3,7 +3,7 @@
 
 import {AlexaSkill} from './AlexaSkill';
 import {getNextBirthdays} from './birthdays';
-import {getBirthdays} from 'birthdaysCollection';
+import {getBirthdays} from './birthdaysCollection';
 
 
 // 3rd Party Libs
@@ -60,17 +60,14 @@ class BirthdayBuddy extends AlexaSkill {
 function handleUpcomingBirthdayRequest (response) {
   let now = moment().utcOffset(-7);
   let birthdays = getBirthdays();
-  let nextBirthdays = getNextBirthdays(now, birthdays);
-  console.log(nextBirthdays);
+  let {names, date} = getNextBirthdays(now, birthdays);
   let birthdayString = '';
+  let dateFormat = 'MMMM Do';
 
-  switch (nextBirthdays.length) {
+  switch (names.length) {
     case 1:
-      let nextBirthday = nextBirthdays[0];
-      let birthdayName = getBirthdayName(nextBirthday);
-      birthdayString = `${birthdayName}'s birthday is next on `
-
-
+      birthdayString = `${names[0]}'s birthday is next on ${date.format(dateFormat)}`;
+      break;
   }
 
   // 1 birthday: Swaraj's birthday is next on June 10th
@@ -79,8 +76,6 @@ function handleUpcomingBirthdayRequest (response) {
 
 
 
-  let d = new Date();
-  let s = `Today is ${d.getUTCDate()}. Hour is: ${d.getUTCHours()}`;
 
   // UTC: date: 30; hours: 11
   response.tell(birthdayString);
