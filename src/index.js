@@ -62,27 +62,36 @@ function handleUpcomingBirthdayRequest (response) {
   let birthdays = getBirthdays();
   let {names, date} = getNextBirthdays(now, birthdays);
   let birthdayString = '';
-  let dateFormat = 'MMMM Do';
-
-  switch (names.length) {
-    case 1:
-      birthdayString = `${names[0]}'s birthday is next on ${date.format(dateFormat)}`;
-      break;
-  }
+  let birthdayDate = date.format('MMMM Do');
 
   // 1 birthday: Swaraj's birthday is next on June 10th
   // 2 birthdays: Anurati & Swaraj's birthdays are next on June 11th
   // 2+ birthdays: Anurati, Swaraj, and Bagel's birthdays are next on June 12th
+  switch (names.length) {
+    case 0:
+      birthdayString = 'No upcoming birthdays';
+      break;
 
+    case 1:
+      birthdayString = `${names[0]}'s birthday is next on ${birthdayDate}`;
+      break;
 
+    case 2:
+      birthdayString = `${names[0]} & ${names[1]}'s birthday is next on ${birthdayDate}`;
+      break;
 
+    default:
+      for (let i = 0; i < names.length; i++) {
+        if (i < names.length - 1) {
+          birthdayString += `${names[i]}, `;
+        } else {
+          birthdayString += ` and ${names[i]}'s birthdays are next on ${birthdayDate}`;
+        }
+      }
+      break;
+  }
 
-  // UTC: date: 30; hours: 11
   response.tell(birthdayString);
-
-
-  //var speechResponse = "Uhhnooruhthee's birthday is next, on December 5th";
-  //response.tell(speechResponse);
 }
 
 // Create the handler that responds to the Alexa Request.

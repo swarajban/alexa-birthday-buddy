@@ -69,7 +69,7 @@ describe('Birthday tests',
             let {names, date} = birthday.getNextBirthdays(today, testBirthdays);
             assert.equal(2, names.length);
           }
-        )
+        );
       }
     );
   }

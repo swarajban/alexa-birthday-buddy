@@ -15,10 +15,6 @@ export function getBirthdays () {
     {
       "name": "Swaraj's Dad",
       "date": "7/17/1960"
-    },
-    {
-      "name": "Bagel",
-      "date": "5/5/1988"
     }
   ];
 }
