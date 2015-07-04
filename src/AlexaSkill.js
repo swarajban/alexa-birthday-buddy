@@ -95,7 +95,6 @@ export class AlexaSkill {
       }
 
       // Route the request to the proper handler which may have been overridden
-      let requestHandler = null;
       switch (event.request.type) {
         case 'LaunchRequest':
           this.launchRequest(event, context, new Response(context, event.session));

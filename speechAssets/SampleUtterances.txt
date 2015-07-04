@@ -1,4 +1,6 @@
 UpcomingBirthdaysIntent upcoming birthdays
+UpcomingBirthdaysIntent whose birthday is next
+
 
 HelpIntent help
 HelpIntent help me
