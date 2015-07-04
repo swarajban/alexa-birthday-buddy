@@ -29,6 +29,10 @@ export function getBirthdays () {
       "date": "3/1/1989"
     },
     {
+      "name": "Sinan",
+      "date": "2/1/1988"
+    },
+    {
       "name": "Tabeer",
       "date": "7/3/1989"
     },
@@ -43,6 +47,10 @@ export function getBirthdays () {
     {
       "name": "Ravi",
       "date": "8/22/1989"
+    },
+    {
+      "name": "Matt",
+      "date": "7/5/1989"
     },
     {
       "name": "Chetan",
@@ -97,7 +105,7 @@ export function getBirthdays () {
       "name": "Anurati's Mom",
       "pronounced": "Uhhnooruhthee's Mom",
       "date": "2/23/1961"
-    },
+    }
   ];
 }
 

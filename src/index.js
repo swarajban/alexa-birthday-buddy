@@ -58,11 +58,14 @@ class BirthdayBuddy extends AlexaSkill {
 
 
 function handleUpcomingBirthdayRequest (response) {
+  let dateFormat = 'MMMM Do'; // ex: January 1st
   let now = moment().utcOffset(-7);
+  console.log(`Today is ${now.format(dateFormat)}`);
+
   let birthdays = getBirthdays();
   let {names, date} = getNextBirthdays(now, birthdays);
   let birthdayString = '';
-  let birthdayDate = date.format('MMMM Do');
+  let birthdayDate = date.format(dateFormat);
 
   // 1 birthday: Swaraj's birthday is next on June 10th
   // 2 birthdays: Anurati & Swaraj's birthdays are next on June 11th
@@ -90,6 +93,8 @@ function handleUpcomingBirthdayRequest (response) {
       }
       break;
   }
+
+  console.log(`Birthday String: "${birthdayString}"`);
 
   response.tell(birthdayString);
 }
